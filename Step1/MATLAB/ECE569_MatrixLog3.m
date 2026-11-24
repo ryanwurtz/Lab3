@@ -23,24 +23,24 @@ elseif ismembertol(trace(R), -1)
     % three subcases to avoid dividing by zero
     if ~ismembertol(R(3,3),-1)
         % case (b.1) check r33 is not -1
-        % w_hat = ...
+        w_hat = (R(:,3) + [0; 0; 1]) / sqrt(2 * (1 + R(3,3)));
 
     elseif ~ismembertol(R(2,2),-1)
         % case (b.2) check r22 is not -1
-        % w_hat = ...
+        w_hat= (R(:,2) + [0; 1; 0]) / sqrt(2 * (1 + R(2,2)));
 
     else
         % case (b.3) check r11 is not -1
-        % w_hat = ...
+        w_hat = (R(:,1) + [1; 0; 0]) / sqrt(2 * (1 + R(1,1)));
     end
     
     % You must return a skew-symmetric matrix
-    % w_hat_theta = ...
+    w_hat_theta = ECE569_VecToso3(w_hat) * theta;
 
 else
     % case (c) this condition runs in all other cases
-    % theta = ...
-    % w_hat = ...
-    w_hat_theta = w_hat*theta;
+    theta = acos((trace(R) - 1) / 2);
+    w_hat = (R - R') / (2 * sin(theta));
+    w_hat_theta = w_hat * theta;
 end
 end
